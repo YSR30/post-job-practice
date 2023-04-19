@@ -1,0 +1,66 @@
+<template>
+  <div>
+    <h1>Service Users</h1>
+    <button @click="showAddUserForm">Add User</button>
+    <div v-if="showForm">
+      <h2>Add User</h2>
+      <form @submit.prevent="addUser">
+        <label>
+          Name:
+          <input type="text" v-model="newUser.name" required>
+        </label>
+        <label>
+          Email:
+          <input type="email" v-model="newUser.email" required>
+        </label>
+        <button>Add</button>
+      </form>
+    </div>
+    <table>
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Email</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr v-for="user in users" :key="user.id">
+          <td>{{ user.name }}</td>
+          <td>{{ user.email }}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</template>
+
+<script>
+export default {
+  data() {
+    return {
+      showForm: false,
+      newUser: {
+        name: '',
+        email: ''
+      },
+      users: []
+    }
+  },
+  methods: {
+    showAddUserForm() {
+      this.showForm = true;
+    },
+    addUser() {
+      // Generate a unique ID for the new user
+      const id = Math.random().toString(36).substr(2, 9);
+      // Add the new user to the list
+      this.users.push({ id, ...this.newUser });
+      // Clear the form
+      this.newUser.name = '';
+      this.newUser.email = '';
+      // Hide the form
+      this.showForm = false;
+    }
+  }
+}
+</script>
+
