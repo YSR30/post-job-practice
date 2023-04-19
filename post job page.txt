@@ -1,0 +1,199 @@
+<template>
+  <v-container fluid>
+      <p>Post Job</p><br>
+      <v-row >
+          <v-col cols="12" sm="6">
+              <v-select 
+              :items="users"
+              v-model="selectedusers" 
+              label="Select a Service user" 
+               variant="outlined" 
+               prepend-icon="mdi-account-multiple"
+               ></v-select>
+          </v-col>
+          <v-col cols="12" sm="6">
+              <v-menu>
+                <template v-slot:activator="{ on }">
+                  <v-text-field
+                    v-model="selectedDate"
+                    variant="outlined"
+                    label="Select a date"
+                    input type="date"
+                    prepend-icon="mdi-calendar"
+                    v-on="on"
+                  ></v-text-field>
+                </template>   
+      </v-menu>
+       </v-col>  
+      </v-row>
+      <v-row>
+          <v-col  cols="12" sm="12">
+              <v-text-field 
+              label="Job Post Title" 
+              v-model="title"
+              variant="outlined" 
+              ></v-text-field> 
+          </v-col>
+      </v-row>
+      <v-row>
+          <v-col  cols="12" sm="12">
+            <v-textarea 
+              label="Job Post Description"
+              v-model="des" 
+              variant="outlined" 
+              rows="4">
+            </v-textarea>
+          </v-col>
+      </v-row>
+      <v-row>
+          <v-col  cols="12" lg="6">
+              <h3>Shifts</h3>
+          </v-col>
+          <v-col  cols="12" lg="6">
+            <div class="text-end">
+              <v-btn @click="addShift()"
+                variant="outlined" 
+                prepend-icon="mdi-plus"
+                tile outlined color="#005eb8"
+                >
+                Add Shift
+              </v-btn>
+            </div>
+          </v-col>
+      </v-row>
+      <v-row>
+        <v-col cols="12">
+          <div v-for="(shift, index) in shifts" :key="index">
+            <v-row>
+              <v-col cols="12" sm="6">
+                <v-menu>
+                  <template v-slot:activator="{ on }">
+                    <v-text-field
+                    v-model="shift.startTime"
+                    variant="outlined"
+                    label="Start Time"
+                    input type="time"
+                    prepend-icon="mdi-clock"
+                    v-on="on"
+                    ></v-text-field>
+                  </template>
+                </v-menu>
+              </v-col>
+              <v-col cols="12" sm="6">
+                <v-menu>
+                  <template v-slot:activator="{ on }">
+                    <v-text-field
+                      v-model="shift.endTime"
+                      variant="outlined"
+                      label="End Time"
+                      input type="time"
+                      prepend-icon="mdi-clock"
+                      v-on="on"
+                      >
+                    </v-text-field>
+                  </template>
+                </v-menu>
+              </v-col>
+            </v-row>
+            <v-row>
+              <v-col cols="12" sm="6">
+                <v-menu>
+                  <template v-slot:activator="{ on }">
+                    <v-text-field
+                      v-model="shift.date"
+                      variant="outlined"
+                      label="Date"
+                      input type="date"
+                      prepend-icon="mdi-calendar"
+                      v-on="on"
+                      >
+                    </v-text-field>
+                  </template>   
+                </v-menu>
+              </v-col>
+              <v-col cols="12" sm="6">
+                <div class="text-end">
+                  <v-btn 
+                    variant="outlined" 
+                    prepend-icon="mdi-trash-can-outline"
+                    tile outlined color="#005eb8"
+                    @click="removeShift(index)"
+                    >
+                    Remove
+                  </v-btn>
+                </div>
+              </v-col>
+            </v-row>
+          </div>
+        </v-col>
+      </v-row>
+      <v-row>
+        <v-alert 
+          border="start"
+          type="info"
+          variant="outlined"
+          elevation="5"
+          >Click the 'Add Shift' button to add a new shift to this booking.</v-alert>
+        </v-row>
+      <v-row>
+        <v-col  cols="12" sm="6">
+          <div class="pa-4 text-center">
+            <v-btn
+              v-on:click="clearAll()"
+              variant="outlined"
+              prepend-icon="mdi-close"
+              tile outlined color="#005eb8"
+              >CLEAR ALL
+            </v-btn>
+          </div>
+        </v-col>
+        <v-col  cols="12" sm="6">
+          <div class="pa-4 text-center">
+            <v-btn
+              color="#005eb8"
+              class="text-white"
+              prepend-icon="mdi-file-find" 
+              >
+              PREVIEW JOB POST
+            </v-btn>
+          </div>
+        </v-col>
+      </v-row>  
+    </v-container>
+  </template>
+  
+      
+  <script>
+  export default {
+        data() {
+            return {
+              users:['Yuvan','Sidarth','Vignesh','Kumar'],
+              selectedusers: '',
+              selectedDate: null,
+              title: '',
+              des: '',
+              shifts:[]
+            }
+        },
+
+      methods: {
+          clearAll() {
+              this.selectedusers = '',
+                  this.selectedDate = '',
+                  this.title = '',
+                  this.des = ''          
+      }, 
+      addShift() {
+        this.shifts.push({
+          startTime: null,
+          endTime: null,
+          date: null
+        })
+      },
+      removeShift(index) {
+        this.shifts.splice(index, 1)
+      }
+    },   
+  };
+  
+  </script>
